@@ -14,10 +14,11 @@ const cartItems = [];
 
 // Define routes
 router.get('/',cookieJwtAuth, (req, res) => {
-    res.render('venda', { menuItems, cartItems });
+    res.render('venda', { menuItems, cartItems, layout: 'layout'});
 });
 
 router.post('/order',cookieJwtAuth, (req, res) => {
+    console.log(req.body);
     const selectedItemId = parseInt(req.body.item_id);
     const quantity = parseInt(req.body.quantity);
 
@@ -47,7 +48,7 @@ router.get('/remove/:itemId',cookieJwtAuth, (req, res) => {
 
 router.get('/checkout',cookieJwtAuth, (req, res) => {
     const totalCost = cartItems.reduce((total, item) => total + item.totalCost, 0);
-    res.render('checkout', { cartItems, totalCost });
+    res.render('checkout', { cartItems, totalCost, layout: 'layout' });
 });
 
 export default router;

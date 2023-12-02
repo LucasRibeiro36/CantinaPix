@@ -1,28 +1,29 @@
-<!-- Cardápio Section -->
-<h1>Cardápio</h1>
-<form action="/venda/order" method="post">
-    <div class="form-group">
-        <label for="item_id">Selecione um item:</label>
-        <select class="form-control comida-form" name="item_id" id="item_id">
-            {{#each menuItems}}
+<div class="container mt-4">
+    <!-- Cardápio Section -->
+    <h1>Cardápio</h1>
+    <form action="/venda/order" method="post">
+        <div class="form-group">
+            <label for="item_id">Selecione um item:</label>
+            <select class="form-control comida-form" name="item_id" id="item_id">
+                {{#each menuItems}}
                 <option value="{{ id }}">
                     <img src="{{ img }}" class="rounded-circle" alt="{{ name }}" width="50" height="50">
                     {{ name }} - R$ {{ price }}
                 </option>
-            {{/each}}
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="quantity">Quantidade:</label>
-        <input type="number" class="form-control" name="quantity" id="quantity" min="1" value="1">
-    </div>
-    <button type="submit" class="btn btn-success">Adicionar ao Carrinho</button>
-</form>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantidade:</label>
+            <input type="number" class="form-control" name="quantity" id="quantity" min="1" value="1">
+        </div>
+        <button type="submit" class="btn btn-success">Adicionar ao Carrinho</button>
+    </form>
 
-<!-- Carrinho de Compras Section -->
-<h2 class="mt-4">Carrinho de Compras</h2>
-<ul class="list-group">
-    {{#each cartItems}}
+    <!-- Carrinho de Compras Section -->
+    <h2 class="mt-4">Carrinho de Compras</h2>
+    <ul class="list-group">
+        {{#each cartItems}}
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
                 <img src="{{ item.img }}" alt="{{ item.name }}" class="rounded-circle" width="50" height="50">
@@ -30,10 +31,22 @@
             </div>
             <a href="/venda/remove/{{ item.id }}" class="btn btn-danger btn-sm">Remover</a>
         </li>
-    {{/each}}
-    {{#if cartItems}}
-    <form action="/venda/checkout" method="get">
-        <button type="submit" class="btn btn-primary mt-2">Pagar</button>
-    </form>
-    {{/if}}
-</ul>
+        {{/each}}
+        {{#if cartItems}}
+        <form action="/venda/checkout" method="get">
+            <button type="submit" class="btn btn-primary mt-2">Pagar</button>
+        </form>
+        {{/if}}
+    </ul>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.comida-form').select2({ theme: 'bootstrap-5' });
+        });
+    </script>
+</div>
+
+<!-- Footer -->
+<div class="bg-dark text-white text-center py-2 fixed-bottom">
+    &copy; 2023 CantinaPix
+</div>
