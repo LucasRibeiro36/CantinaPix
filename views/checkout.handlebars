@@ -1,0 +1,13 @@
+<!-- Finalizar Pedido Section -->
+<h1>Finalizar Pedido</h1>
+<h2>Resumo do Pedido</h2>
+<ul class="list-group">
+    {{#each cartItems}}
+        <li class="list-group-item">
+            <img src="{{ item.img }}" class="rounded-circle" alt="{{ item.name }}" width="50" height="50">
+            {{ item.name }} - Quantidade: {{ quantity }} - Total: R$ {{ totalCost }}
+        </li>
+    {{/each}}
+</ul>
+<p class="mt-2">Custo Total: R$ {{ totalCost }}</p>
+<p><a href="/venda" class="btn btn-secondary">Voltar para o Cardápio</a><span class="mr-2"></span><a href="/venda" class="btn btn-primary">Pagar com Pix</a></p>
