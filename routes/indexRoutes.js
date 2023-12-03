@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 
 router.get('/logout', cookieJwtAuth, (req, res) => {
     res.clearCookie("token");
+    req.session.cartItems = [];
     res.redirect('/');
 });
 
