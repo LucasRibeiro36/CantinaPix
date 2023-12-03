@@ -5,10 +5,10 @@ import paymentRoutes from './routes/paymentRoutes.js';
 import vendaRoutes from './routes/vendaRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import loginRoutes from './routes/loginRoutes.js'
-import menuRoutes from './routes/menuRoutes.js'
+import menuRoutes from './routes/itensRoutes.js'
 import indexRoutes from './routes/indexRoutes.js'
 import cookieParser from 'cookie-parser';
-import {init} from './config/database.js';
+import { init } from './config/database.js';
 
 init();
 
@@ -16,9 +16,16 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: './.env' });
 
-const app = express(); 
+const app = express();
 
-app.engine('handlebars', engine());
+app.engine('handlebars', engine(
+    {
+        extname: '.handlebars',
+        runtimeOptions: {
+            allowProtoMethodsByDefault: true,
+            allowProtoPropertiesByDefault: true,
+        }
+    }));
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
@@ -36,8 +43,7 @@ app.use('/payments', paymentRoutes);
 app.use("/venda", vendaRoutes);
 app.use("/", userRoutes);
 app.use("/", loginRoutes);
-app.use("/", userRoutes);
-app.use("/", menuRoutes);
+app.use("/venda", menuRoutes);
 app.use("/", indexRoutes);
 
 

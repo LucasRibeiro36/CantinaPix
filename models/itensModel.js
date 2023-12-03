@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import {sequelize} from '../config/database.js';
 
-const Menu = sequelize.define('menu', {
+const Itens = sequelize.define('itens', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -12,7 +12,7 @@ const Menu = sequelize.define('menu', {
     allowNull: true
   },
   price: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.FLOAT,
     allowNull: false,
     unique: true
   },
@@ -24,4 +24,4 @@ const Menu = sequelize.define('menu', {
   timestamps: false
 });
 
-export default Menu;
+export default Itens;
