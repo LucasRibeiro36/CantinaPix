@@ -7,8 +7,11 @@ import userRoutes from './routes/userRoutes.js'
 import loginRoutes from './routes/loginRoutes.js'
 import menuRoutes from './routes/menuRoutes.js'
 import indexRoutes from './routes/indexRoutes.js'
-import cookieJwtAuth from './middleware/cookieJwtAuth.js';
 import cookieParser from 'cookie-parser';
+
+import dotenv from 'dotenv';
+
+dotenv.config({ path: './.env' });
 
 const app = express(); 
 
@@ -35,6 +38,6 @@ app.use("/", indexRoutes);
 
 
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('Servidor está rodando em http://localhost:3000');
 });
