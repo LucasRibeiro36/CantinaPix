@@ -1,0 +1,191 @@
+<!-- views/index.handlebars -->
+<div class="container">
+    <h2>Lista de Itens</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adicionarModal">Adicionar</button>
+
+    <!-- Lista de Itens -->
+    <ul class="list-group mt-3" id="listaItens">
+        <!-- Itens serão adicionados dinamicamente aqui -->
+        {{#each menuItems}}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <img src="{{ img }}" alt="{{ name }}" class="rounded-circle" width="50" height="50">
+                {{ name }} - Valor: {{ price }}
+            </div>
+            <div class="btn-group" role="group" aria-label="Ações">
+                <a onclick="editarItem('{{ id }}','{{ name }}', '{{ price }}', '{{ img }}')"
+                    class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editarModal">Editar</a>
+                <a onclick="excluirItem(this, {{id}})" class="btn btn-danger btn-sm">Remover</a>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+
+<!-- Modal de Adicionar -->
+<div class="modal fade" id="adicionarModal" tabindex="-1" aria-labelledby="adicionarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adicionarModalLabel">Adicionar Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulário para adicionar um novo item -->
+                <form id="formAdicionar">
+                    <div class="mb-3">
+                        <label for="nomeItem" class="form-label">Nome:</label>
+                        <input type="text" class="form-control" id="nomeItem" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="precoItem" class="form-label">Preço:</label>
+                        <input type="number" step="0.01" class="form-control" id="precoItem" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imgItem" class="form-label">URL da Imagem:</label>
+                        <input type="text" class="form-control" id="imgItem" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarModalLabel">Editar Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulário para editar um item existente -->
+                <form id="formEditar">
+                    <div class="mb-3">
+                        <label for="idItemEditar" class="form-label">ID:</label>
+                        <input type="text" class="form-control" id="idItemEditar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nomeItemEditar" class="form-label">Nome:</label>
+                        <input type="text" class="form-control" id="nomeItemEditar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="precoItemEditar" class="form-label">Preço:</label>
+                        <input type="number" step="0.01" class="form-control" id="precoItemEditar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imgItemEditar" class="form-label">URL da Imagem:</label>
+                        <input type="text" class="form-control" id="imgItemEditar" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // public/scripts/main.js
+    document.getElementById('formAdicionar').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById('nomeItem').value;
+        const price = document.getElementById('precoItem').value;
+        const img = document.getElementById('imgItem').value;
+
+        // Enviar dados para o servidor usando fetch ou outra abordagem de sua escolha
+        fetch('/itens', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, price, img }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Lógica para atualizar a lista de itens no front-end
+                // Pode ser necessário recarregar a página ou atualizar a lista dinamicamente
+                console.log(data);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erro ao adicionar item:', error);
+            });
+        document.getElementById('adicionarModal').classList.remove('show');
+        document.body.classList.remove('modal-open');
+        document.querySelector('.modal-backdrop').remove();
+
+        // Limpar formulário
+        document.getElementById('formAdicionar').reset();
+        
+    });
+
+    // Função para preencher o formulário de edição com os dados do item selecionado
+    function editarItem(id, name, price, img) {
+        document.getElementById('idItemEditar').value = id;
+        document.getElementById('nomeItemEditar').value = name;
+        document.getElementById('precoItemEditar').value = price;
+        document.getElementById('imgItemEditar').value = img;
+    }
+
+    // public/scripts/main.js
+    document.getElementById('formEditar').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const id = document.getElementById('idItemEditar').value;
+        const name = document.getElementById('nomeItemEditar').value;
+        const price = document.getElementById('precoItemEditar').value;
+        const img = document.getElementById('imgItemEditar').value;
+
+        // Lógica para enviar dados atualizados para o servidor (usando fetch ou outra abordagem)
+        fetch(`/itens/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, price, img }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Lógica para atualizar a lista de itens no front-end
+                // Pode ser necessário recarregar a página ou atualizar a lista dinamicamente
+                console.log(data);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erro ao adicionar item:', error);
+            });
+        // Fechar o modal após a edição
+        document.getElementById('editarModal').classList.remove('show');
+        document.body.classList.remove('modal-open');
+        document.querySelector('.modal-backdrop').remove();
+
+        // Limpar formulário
+        document.getElementById('formEditar').reset();
+        location.reload();
+    });
+
+    function excluirItem(button, id) {
+        // Lógica para excluir um item
+        // Lógica para enviar dados atualizados para o servidor (usando fetch ou outra abordagem)
+        fetch(`/itens/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Lógica para atualizar a lista de itens no front-end
+                // Pode ser necessário recarregar a página ou atualizar a lista dinamicamente
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Erro ao adicionar item:', error);
+            });
+        const listItem = button.closest('.list-group-item');
+        listItem.remove();
+    }
+
+</script>

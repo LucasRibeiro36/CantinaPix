@@ -9,6 +9,8 @@ import menuRoutes from './routes/itensRoutes.js'
 import indexRoutes from './routes/indexRoutes.js'
 import cookieParser from 'cookie-parser';
 import { init } from './config/database.js';
+import itensRoutes from './routes/itensRoutes.js'
+import session from 'express-session';
 
 init();
 
@@ -31,6 +33,11 @@ app.set('views', './views');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+    secret: process.env.MY_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
@@ -45,6 +52,7 @@ app.use("/", userRoutes);
 app.use("/", loginRoutes);
 app.use("/venda", menuRoutes);
 app.use("/", indexRoutes);
+app.use("/", itensRoutes);
 
 
 

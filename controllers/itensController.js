@@ -1,11 +1,12 @@
-import { createIten, getAllItens, getItenById, updateItenById, deleteItenById } from '../services/itenServices.js';
+import { createItem, getAllItens, getItemById, updateItemById, deleteItemById } from '../services/itemServices.js';
 
 // Controller to handle creating a new Iten
-async function createItenController(req, res) {
+async function createItemController(req, res) {
   try {
-    const newIten = await createIten(req.body);
+    const newIten = await createItem(req.body);
     res.status(201).json(newIten);
   } catch (error) {
+    console.log(req.body);
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -23,11 +24,11 @@ async function getAllItensController(req, res) {
 }
 
 // Controller to handle getting a Iten by ID
-async function getItenByIdController(req, res) {
+async function getItemByIdController(req, res) {
   const ItenId = req.params.id;
 
   try {
-    const Iten = await getItenById(ItenId);
+    const Iten = await getItemById(ItenId);
 
     if (Iten) {
       res.status(200).json(Iten);
@@ -41,11 +42,11 @@ async function getItenByIdController(req, res) {
 }
 
 // Controller to handle updating a Iten by ID
-async function updateItenByIdController(req, res) {
+async function updateItemByIdController(req, res) {
   const ItenId = req.params.id;
 
   try {
-    const updatedIten = await updateItenById(ItenId, req.body);
+    const updatedIten = await updateItemById(ItenId, req.body);
 
     if (updatedIten) {
       res.status(200).json(updatedIten);
@@ -59,16 +60,16 @@ async function updateItenByIdController(req, res) {
 }
 
 // Controller to handle deleting a Iten by ID
-async function deleteItenByIdController(req, res) {
+async function deleteItemByIdController(req, res) {
   const ItenId = req.params.id;
 
   try {
-    const deletedRowCount = await deleteItenById(ItenId);
+    const deletedRowCount = await deleteItemById(ItenId);
 
     if (deletedRowCount > 0) {
-      res.status(204).end();
+      res.status(204).json({ sucess: 'Item was deleted' });
     } else {
-      res.status(404).json({ error: 'Iten not found' });
+      res.status(404).json({ error: 'Item not found' });
     }
   } catch (error) {
     console.error(error);
@@ -77,9 +78,9 @@ async function deleteItenByIdController(req, res) {
 }
 
 export {
-  createItenController,
+  createItemController,
   getAllItensController,
-  getItenByIdController,
-  updateItenByIdController,
-  deleteItenByIdController
+  getItemByIdController,
+  updateItemByIdController,
+  deleteItemByIdController
 };

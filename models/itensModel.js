@@ -5,7 +5,8 @@ const Itens = sequelize.define('itens', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    allowNull: false
   },
   name: {
     type: DataTypes.STRING,
@@ -14,7 +15,6 @@ const Itens = sequelize.define('itens', {
   price: {
     type: DataTypes.FLOAT,
     allowNull: false,
-    unique: true
   },
   img: {
     type: DataTypes.STRING,

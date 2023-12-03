@@ -1,7 +1,7 @@
 import Iten from '../models/itensModel.js'; 
 
 // Create a new Iten
-async function createIten(ItenDetails) {
+async function createItem(ItenDetails) {
   try {
     const newIten = await Iten.create(ItenDetails);
     return newIten;
@@ -21,7 +21,7 @@ async function getAllItens() {
 }
 
 // Get Iten by ID
-async function getItenById(ItenId) {
+async function getItemById(ItenId) {
   try {
     const Iten = await Iten.findByPk(ItenId);
     return Iten;
@@ -31,7 +31,7 @@ async function getItenById(ItenId) {
 }
 
 // Update Iten by ID
-async function updateItenById(ItenId, updatedDetails) {
+async function updateItemById(ItenId, updatedDetails) {
   try {
     await Iten.update(updatedDetails, { where: { id: ItenId } });
     const updatedIten = await Iten.findByPk(ItenId);
@@ -43,7 +43,7 @@ async function updateItenById(ItenId, updatedDetails) {
 
 
 // Delete Iten by ID
-async function deleteItenById(ItenId) {
+async function deleteItemById(ItenId) {
   try {
     const deletedRowCount = await Iten.destroy({ where: { id: ItenId } });
     return deletedRowCount;
@@ -52,4 +52,4 @@ async function deleteItenById(ItenId) {
   }
 }
 
-export { createIten, getAllItens, getItenById, updateItenById, deleteItenById};
+export { createItem, getAllItens, getItemById, updateItemById, deleteItemById};
