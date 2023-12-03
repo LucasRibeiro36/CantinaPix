@@ -9,7 +9,7 @@ const generateIdempotencyKey = () => {
 
 // Create and configure the MercadoPagoConfig object
 const mercadopagoConfig = new MercadoPagoConfig({
-    accessToken: 'TEST-1073863784098562-110613-b3495d7287aa14e3963ad79d6df2a9ca-1243128934',
+    accessToken: process.env.ACCESS_TOKEN,
     options: { timeout: 5000 }
 });
 
