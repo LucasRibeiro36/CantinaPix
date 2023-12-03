@@ -17,7 +17,8 @@ console.log(process.env.DATABASE_NAME,
   process.env.DATABASE_HOST,
   process.env.DATABASE_PORT,
   process.env.DATABASE_DIALECT);
-(async () => {
+
+const init = async function (){
   try {
     await sequelize.authenticate();
     console.log('Conexão com o banco de dados estabelecida com sucesso.');
@@ -31,6 +32,6 @@ console.log(process.env.DATABASE_NAME,
   } catch (error) {
     console.error('Não foi possível criar as tabelas:', error);
   }
-})();
+};
 
-export default sequelize;
+export {sequelize, init};

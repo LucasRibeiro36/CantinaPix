@@ -8,6 +8,9 @@ import loginRoutes from './routes/loginRoutes.js'
 import menuRoutes from './routes/menuRoutes.js'
 import indexRoutes from './routes/indexRoutes.js'
 import cookieParser from 'cookie-parser';
+import {init} from './config/database.js';
+
+init();
 
 import dotenv from 'dotenv';
 
@@ -26,6 +29,7 @@ app.use(express.json());
 app.use(express.static('public'));
 // Use cookie-parser middleware to parse cookies
 app.use(cookieParser());
+
 
 
 app.use('/payments', paymentRoutes);
